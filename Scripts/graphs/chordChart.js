@@ -22,4 +22,5 @@
 *      Note: The value selected in the filter (example: "Christianity")
 *	     will be highlighted somehow 
 *	     (Maybe a specific color, that stands out from our other color 
-*	      choices for the graph). 
+*	      choices for the graph).
+*/ 
