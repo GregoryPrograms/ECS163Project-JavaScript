@@ -19,5 +19,36 @@
 */
 
 function update(filterArray, lastFilter){
-  
+//First, we load in our csv data.
+  d3.csv("data.csv", function(data) {
+//Now, we loop through and apply our filters. First, we create an unfiltered copy of the csv, to apply our filters to.
+fullFiltData = data;
+        for(iter of filterArray)
+	   {
+//If the filter we're currently looking at is active.
+           if(iter.filtVal != "")
+             {
+//If the filter we're looking at is not color or shape (those need special parsing)
+             if(iter.key != "color" & iter.key != "shape")
+	       {
+               if(iter.key == "religion")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.religion == iter.filtVal});
+                 }
+               else if(iter.key == "landmass")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.landmass == iter.filtVal});
+                 }
+               else if(iter.key == "language")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.language == iter.filtVal});
+                 }
+               }
+             else if(iter.key == "color")
+	       {
+
+               }
+             } 
+           }
+	}  
 }
