@@ -2,15 +2,10 @@
 * The globe, the flag filters, and mouseclick events all call 'set' functions in
 * here, setting objects of type filter. 
 *
-* Filter objects have two characteristics-
-* bool- indicates if the specific filter is set 
-*       (for example, if we're currently filtering based on color and religion,
-*        the colorFlag and religionFlag would have true values for their bool, 
-*        while the shapeFlag would have a 'false' value).
-*
+* Filter objects have one characteristic-
 * string- indicates the specific value we're looking for 
 *         (for example, with a filter on religion, the value might be 
-*          "christianity").
+*          "christianity"). Doubles as a bool, if the filter is not active, we set it to empty.
 *
 * Each object should have a filter function related to it, so that we can easily
 * call the specific function from our filter.
@@ -22,38 +17,16 @@
 //Class for each of our filters. Initially, none of them are set, so none of them have a specific key that they're filtering for. 
 class filterFlag {
   constructor(key){
-        //Bool, tracks if the filter is active.
- 	this.isActive = 0;
-	
 	//String, holds the name of the key being filtered on, ex: religion, language, shape.
         this.key = key;	
 
 	//String, holds the name of the filter, ex: If this.key is religion, this.filtVal could be christianity
 	this.filtVal = "";
 	}
-  
-  //functions to set and get all of the filter attributes (except key, we don't need to change that once it's created).  
-  getActive(){
-	return this.isActive;
-	}
-  setActive(active){
-	this.isActive = active;
-	}
-  
-  getFiltKey(){
-	return this.key
-        } 
-  
-  getFiltVal(){
-	return this.filtVal;
-	}
-  setFiltVal(filtVal){
-	this.filtVal = filtVal;
-	}
 }	
 
 //Creating our initial filters, also a variable to track the most recent changed filter. 
-var lastFilter = 0;
+var lastFilter = "";
 var religFilter = new filterFlag("religion");
 var landFilter = new filterFlag("landmass");
 var langFilter = new filterFlag("language");
@@ -61,53 +34,92 @@ var colorFilter = new filterFlag("color");
 var shapeFilter = new filterFlag("shape");
 
 //This is the code that our filters will call when a religious filter is chosen. The none option allows the user to change it back to having no religious filter active.
-filterRelig(filtVal){
+function filterRelig(filtVal){
   if(filtVal != "none"){
-    religFilter.setActive(1);
-    religFilter.setFiltVal(filtVal);
-    lastFilter = religFilter.getFiltKey();
+    religFilter.filtVal = filtVal;
+    lastFilter = religFilter.key;
   }
-//If the none option is selected, we turn off the religion filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to 0.
+//If the none option is selected, we turn off the religion filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to empty.
   else{	
-    religFilter.setActive(0);
-    if(lastFilter == religFilter.getFiltKey()){
-      lastFilter = 0;
+    religFilter.filtVal = "";
+    if(lastFilter == religFilter.key){
+      lastFilter = "";
     }
   }
+  callUpdate();
 }
 
 //This is the code that our filters will call when a land filter is chosen. The none option allows the user to change it back to having no land filter active.
-filterLand(filtVal){
+function filterLand(filtVal){
   if(filtVal != "none"){
-    landFilter.setActive(1);
-    landFilter.setFiltVal(filtVal);
-    lastFilter = landFilter.getFiltKey();
+    landFilter.filtVal = filtVal;
+    lastFilter = landFilter.key;
   }
 //If the none option is selected, we turn off the land filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to 0.
   else{ 
-    landFilter.setActive(0);
-    if(lastFilter == landFilter.getFiltKey()){
+    landFilter.filtVal = "";
+    if(lastFilter == landFilter.key){
       lastFilter = 0;
     }
   }
+  callUpdate();
 }
 
 
-//This is the code that our filters will call when a land filter is chosen. The none option allows the user to change it back to having no land filter active.
-filterLang(filtVal){
+//This is the code that our filters will call when a lang filter is chosen. The none option allows the user to change it back to having no lang filter active.
+function filterLang(filtVal){
   if(filtVal != "none"){
-    langFilter.setActive(1);
-    langFilter.setFiltVal(filtVal);
-    lastFilter = langFilter.getFiltKey();
+    langFilter.filtVal = filtVal;
+    lastFilter = langFilter.key;
   }
-//If the none option is selected, we turn off the land filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to 0.
+//If the none option is selected, we turn off the lang filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to 0.
   else{ 
-    langFilter.setActive(0);
-    if(lastFilter == langFilter.getFiltKey()){
+    langFilter.filtVal = "";
+    if(lastFilter == langFilter.key){
       lastFilter = 0;
     }
   }
+  callUpdate();
 }
 
+//This is the code that our filters will call when a color filter is chosen. The none option allows the user to change it back to having no color filter active.
+function filterColor(filtVal){
+  if(filtVal != "none"){
+    colorFilter.filtVal = filtVal;
+    lastFilter = colorFilter.key;
+  }
+//If the none option is selected, we turn off the color filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to 0.
+  else{ 
+    colorFilter.filtVal = "";
+    if(lastFilter == colorFilter.key){
+      lastFilter = 0;
+    }
+  }
+  callUpdate();
+}
 
+//This is the code that our filters will call when a lang filter is chosen. The none option allows the user to change it back to having no lang filter active.
+function filterShape(filtVal){
+  if(filtVal != "none"){
+    shapeFilter.filtVal = filtVal;
+    shapeFilter = shapeFilter.key;
+  }
+//If the none option is selected, we turn off the lang filter. We also check if it was the most recently accessed filter. If it was, we change the most recently accessed filter to 0.
+  else{ 
+    shapeFilter.filtVal = "";
+    if(lastFilter == shapeFilter.key){
+      shapeFilter = 0;
+    }
+  }
+  callUpdate();
+}
 
+function callUpdate(){
+  var myArray = [];
+  myArray.push(religFilter);
+  myArray.push(landFilter);
+  myArray.push(langFilter);
+  myArray.push(colorFilter);
+  myArray.push(shapeFilter);
+  update(myArray,lastFilter);
+}

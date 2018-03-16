@@ -18,4 +18,6 @@
 *	  structure we've created for them.
 */
 
-
+function update(filterArray, lastFilter){
+  
+}
