@@ -46,6 +46,35 @@ fullFiltData = data;
                }
              else if(iter.key == "color")
 	       {
+               if(iter.filtVal == "red")
+		 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.red == 1});
+                 }
+	        else if(iter.filtVal == "green")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.green == 1});
+                 }
+                else if(iter.filtVal == "blue")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.blue == 1});
+                 }
+                 else if(iter.filtVal == "gold")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.gold == 1});
+                 }
+                 else if(iter.filtVal == "white")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.white == 1});
+                 }
+                 else if(iter.filtVal == "black")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.black == 1});
+                 }
+		 else if(iter.filtVal == "orange")
+                 {
+                 fullFiltData = fullFiltData.filter(function(d){return d.orange == 1});
+                 }
+
 
                }
              } 
