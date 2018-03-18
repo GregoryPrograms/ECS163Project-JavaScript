@@ -121,5 +121,8 @@ function callUpdate(){
   myArray.push(langFilter);
   myArray.push(colorFilter);
   myArray.push(shapeFilter);
+  $.getScript('update.js', function(){
   update(myArray,lastFilter);
+  });
 }
+
