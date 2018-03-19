@@ -114,11 +114,12 @@ function update(filterArray, lastFilter){
                   fullFiltData = fullFiltData.filter(function(d){
 		                return d.text == 1});
                   break;
-                case default: break;
+                default: break;
                 }//Switch iter.filtVal (for color and shape)
-              case default: break;
+              default: break;
               }//Switch iter.key(overall switch)
            }//if(iter.filtVal == " ")
         }//for(iter of filterArray)
-     }//d3.csv()
+     console.log(fullFiltData);
+   });//d3.csv()
   }//function update()
