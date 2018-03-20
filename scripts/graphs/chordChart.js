@@ -23,4 +23,23 @@
 *	     will be highlighted somehow 
 *	     (Maybe a specific color, that stands out from our other color 
 *	      choices for the graph).
-*/ 
+*/
+function chord(outerData){
+var chordSvg = d3.select("chordChart"),
+    width = 800,
+    height = 800,
+    outerRadius = Math.min(width, height) * 0.5 - 40,
+    innerRadius = outerRadius - 30;
+var pie = d3.pie()
+	    .value(function(d) {return d.value;}); 
+var outerChordArc = d3.arc()
+	              .innerRadius(innerRadius)
+	              .outerRadius(outerRadius);
+var outerChordG = chordSvg.selectAll(".outerChordArc")
+                          .data(pie(outerData))
+                          .enter().append("g")
+			  .attr("class", ".outerChordArc");
+    
+	
+}
+                      
