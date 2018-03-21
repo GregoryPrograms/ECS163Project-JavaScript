@@ -149,7 +149,7 @@ function update(filterArray, lastFilter){
                        .key(function(d) {if(lastFilter != ""){return d[lastFilter]}else{return d.landmass}})
                        .entries(data);
       chordNest(nesChord, lastFilter);
-      //parallel(parallelFullMap, parallelFilteredMap);
+      parallel(parallelFullMap, parallelFilteredMap);
         //This is where graph calls go.
       });//d3.csv()
     }//function update()
@@ -177,25 +177,17 @@ function chordNest(data, lastFilter){
     break;
     default: break;
     }
-  console.log(makeMatrix(temp2, colList));
+  makeMatrix(temp2, colList);
 }
 
 function makeMatrix(temp2, colList){
-  var tempI = [];
-  for(i of temp2){
-    var tempJ = [];
-    for(j of temp2){
-      tempCount = 0;
-      for(iter of colList){
-        if(j[iter] != 0)
-          {
-          tempCount += i[iter];
-          }
-    tempJ.push(tempCount);
+  for(i in temp2){
+    for(j in temp2){
+      for(iter in colList){
+
+      }
     }
-  tempI.push(tempJ);
   }
-  return tempI;
 }
 
 
@@ -411,8 +403,9 @@ function shapeToStr(object){
   if(object.text != "0"){temp = temp + "Text ";}
   return temp;
 }
-function whatIsIt(key, filter){
-switch(filter){
+function whatIsIt(key, filter)
+{
+switch(key){
   case "":
   case "landmass":
   return(landToStr(key));
