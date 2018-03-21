@@ -10,12 +10,16 @@
 }
 
 .land:hover {
-  fill:#33CC33;
+  fill:#79C753;
   stroke-width: 1px;
 }
 
 .focused {
-  fill: #33CC33;
+  fill: #79C753;
+}
+
+.highlight {
+  fill: #E94B3C;
 }
 
 select {
