@@ -22,10 +22,9 @@
  * filteredMap -- data that will popout relevant to filters
  */
 function parallel(fullMap, filteredMap) {
-  var test = [filteredMap[1], filteredMap[2], filteredMap[3]];
   var margin = {
       top: 30,
-      right: 100,
+      right: -5,
       bottom: 10,
       left: -10
     },
@@ -92,8 +91,8 @@ function parallel(fullMap, filteredMap) {
     .data(fullMap)
     .enter().append("path")
     .attr("d", path)
-    .style("stroke", "#ddd")
-    .style("stroke-opacity", ".4")
+    .style("stroke", "#fff")
+    .style("stroke-opacity", "0.9")
     .style("shape-rendering", "crispEdges")
     .style("fill", "none");
 
