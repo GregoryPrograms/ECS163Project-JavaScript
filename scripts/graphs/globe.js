@@ -24,6 +24,7 @@
  *  filteredCountries -- subset of the countries that apply to the filters
  */
 function globe(filteredCountries) {
+
   var width = 600,
     height = 500,
     sens = 0.25,
@@ -113,6 +114,21 @@ function globe(filteredCountries) {
         countryTooltip.style("left", (d3.event.pageX + 7) + "px")
           .style("top", (d3.event.pageY - 15) + "px");
       });
+
+      // filtered countries referenced by ID in integers
+      var filteredCountryIDs = [];
+      filteredCountries.forEach(function(d){
+        filteredCountryIDs.push(parseInt(d.id));
+      });
+
+      // highlights countries based on incoming filtered data
+      svg.selectAll("path.land")
+          .classed("highlight", function(d, i){
+            if (d.id == filteredCountryIDs[filteredCountryIDs.indexOf(d.id)])
+              return true;
+            else
+              return false;
+          });
 
     //Country focus on option select
     d3.select("select").on("change", function() {

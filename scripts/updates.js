@@ -184,6 +184,7 @@ function update(filterArray, lastFilter){
         chord(chordNest(flagAttrData, lastFilter, numOf, filterArray), lastFilter);
         }
       //parallel(parallelFullMap, parallelFilteredMap);
+      parallel(parallelFullMap, parallelFilteredMap);
         //This is where graph calls go.
       });//d3.csv()
     }//function update()
@@ -311,13 +312,11 @@ function makeMatrix(temp2, colList){
         tempJ.push(tempCount);
         }
       else{tempJ.push(0);}
-    }
+      }
   tempI.push(tempJ);
   }
-  console.log(tempI);
-  return tempI;
+  return(tempI);
 }
-
 
 function moreThanHalf(num1, num2){
   if(num1 < num2/2)
@@ -644,8 +643,9 @@ function shapeToStr(object){
   if(object.text != "0"){temp = temp + "Text ";}
   return temp;
 }
-function whatIsIt(key, filter){
-switch(filter){
+function whatIsIt(key, filter)
+{
+switch(key){
   case "":
   case "landmass":
   return(landToStr(key));
