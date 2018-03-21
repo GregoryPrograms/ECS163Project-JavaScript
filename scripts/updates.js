@@ -142,7 +142,7 @@ function update(filterArray, lastFilter){
               }//Switch iter.key(overall switch)
            }//if(iter.filtVal != " ")
         }//for(iter of filterArray)
-      //globe(data, fullFiltData);
+      globe(fullFiltData);
       var parallelFullMap = newGraph(data); //This is the full map, improved for parallel coordinates.
       var parallelFilteredMap = newGraph(fullFiltData); //This is the filtered map, improved for parallel coordinates.
       var nesChord = d3.nest()
@@ -191,7 +191,6 @@ function makeMatrix(temp2, colList){
           {
           tempCount += i[iter];
           }
-      }
     tempJ.push(tempCount);
     }
   tempI.push(tempJ);
