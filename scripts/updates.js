@@ -177,7 +177,7 @@ function chordNest(data, lastFilter){
     break;
     default: break;
     }
-  console.log(makeMatrix(temp2, colList));
+  chord(makeMatrix(temp2, colList));
 }
 
 function makeMatrix(temp2, colList){
@@ -191,7 +191,11 @@ function makeMatrix(temp2, colList){
           {
           tempCount += i[iter];
           }
-    tempJ.push(tempCount);
+        }
+      if(i != j){
+        tempJ.push(tempCount);
+        }
+      else{tempJ.push(0);}
     }
   tempI.push(tempJ);
   }
