@@ -145,6 +145,10 @@ function update(filterArray, lastFilter){
       //globe(data, fullFiltData);
       var parallelFullMap = newGraph(data); //This is the full map, improved for parallel coordinates.
       var parallelFilteredMap = newGraph(fullFiltData); //This is the filtered map, improved for parallel coordinates.
+      var nesChord = d3.nest()
+                       .key(function(d) {if(lastFilter != ""){return d[lastFilter]}else{return d.landmass}})
+                       .entries(data);
+      chordNest(nesChord, lastFilter);
       //parallel(parallelFullMap, parallelFilteredMap);
         //This is where graph calls go.   
       });//d3.csv()
@@ -152,6 +156,136 @@ function update(filterArray, lastFilter){
 
 
 
+function chordNest(data, lastFilter){
+  var temp = [];
+  var temp2 = [];
+  switch(lastFilter){
+    case "":
+    case "landmass":
+      for(object of data)
+        {
+        var allColors = countColor(object);
+        temp.push({"key": landToStr(object.key), "red": allColors.red, "green": allColors.green, "blue": allColors.blue, "gold": allColors.gold, "white": allColors.white, "black": allColors.black, "orange": allColors.orange, "bars": allColors.bars, "stripes": allColors.stripes, "circles": allColors.circles, "crosses": allColors.crosses, "saltires": allColors.saltires, "quarters": allColors.quarters, "sunstars": allColors.sunstars, "crescents": allColors.crescents, "triangles": allColors.triangles, "icons": allColors.icons, "animates": allColors.animates, "texts": allColors.texts, "length": object.values.length});
+        }
+    for(object of temp)
+        {
+        temp2.push({"key": object.key, "red": moreThanHalf(object.red, object.length), "green": moreThanHalf(object.green, object.length), "blue": moreThanHalf(object.blue, object.length), "gold": moreThanHalf(object.gold, object.length), "white": moreThanHalf(object.white, object.length), "black": moreThanHalf(object.black, object.length), "orange": moreThanHalf(object.orange, object.length), "bars": moreThanHalf(object.bars, object.length), "stripes": moreThanHalf(object.stripes, object.length), "circles": moreThanHalf(object.circles, object.length), "crosses": moreThanHalf(object.crosses, object.length), "saltires": moreThanHalf(object.saltires, object.length), "quarters": moreThanHalf(object.quarters, object.length), "sunstars": moreThanHalf(object.sunstars, object.length), "crescent": moreThanHalf(object.crescents, object.length), "triangles": moreThanHalf(object.triangles, object.length), "icons": moreThanHalf(object.icons, object.length), "animates": moreThanHalf(object.animates, object.length), "texts": moreThanHalf(object.texts, object.length)}); 
+        }
+    default: break;
+    }
+  console.log(temp2);
+}
+
+function moreThanHalf(num1, num2){
+  if(num1 < num2/2)
+    {
+    return 0;
+    }
+  else return num1;
+}
+function countColor(object)
+{
+  barCount = 0;
+  stripCount = 0;
+  redCount = 0;
+  greenCount = 0;
+  blueCount = 0;
+  goldCount = 0;
+  whiteCount = 0; 
+  blackCount = 0;
+  orangeCount = 0;
+  circCount = 0;
+  crossCount = 0;
+  saltCount = 0;
+  quartCount = 0;
+  sunStarCount = 0;
+  cresCount = 0;
+  triCount = 0;
+  iconCount = 0;
+  animCount = 0;
+  textCount = 0;
+  for(iter of object.values)
+    {
+    if(iter.red == "1")
+      {
+      redCount = redCount + 1;
+      }
+    if(iter.green == "1")
+      {
+      greenCount = greenCount + 1;
+      }
+    if(iter.blue == "1")
+      {
+      blueCount = blueCount + 1;
+      }
+    if(iter.gold == "1")
+      {
+      goldCount = goldCount + 1;
+      }
+    if(iter.white == "1")
+      {
+      whiteCount = whiteCount + 1;
+      }
+    if(iter.black == "1")
+      {
+      blackCount = blackCount + 1;
+      }
+    if(iter.orange == "1")
+      {
+      orangeCount = orangeCount + 1;
+      }
+    if(iter.circles != "0")
+      {
+      circCount = circCount + 1;
+      }
+    if(iter.crosses != "0")
+      {
+      crossCount = crossCount + 1;
+      }
+     if(iter.bars != "0")
+      {
+      barCount = barCount + 1;
+      }
+     if(iter.stripes != "0")
+      {
+      stripCount = stripCount + 1;
+      }
+     if(iter.saltires != "0")
+      {
+      saltCount = saltCount + 1;
+      }
+     if(iter.quarters != "0")
+      {
+      quartCount = quartCount + 1;
+      }
+     if(iter.sunstars != "0")
+      {
+      sunStarCount = sunStarCount + 1;
+      }
+     if(iter.crescent != "0")
+      {
+      cresCount = cresCount + 1;
+      }
+     if(iter.triangle != "0")
+      {
+      triCount = triCount + 1;
+      }
+     if(iter.icon != "0")
+      {
+      iconCount = iconCount + 1;
+      }
+     if(iter.animate != "0")
+      {
+      animCount = animCount + 1;
+      }
+     if(iter.text != "0")
+      {
+      textCount = textCount + 1;
+      }
+    }
+   colorCount = {"red": redCount, "green": greenCount, "blue": blueCount, "gold": goldCount, "white": whiteCount, "black": blackCount, "orange": orangeCount, "circles": circCount, "crosses":crossCount, "bars":barCount, "stripes":stripCount, "saltires":saltCount, "quarters":quartCount, "sunstars":sunStarCount, "crescents":cresCount, "triangles":triCount, "icons":iconCount, "animates":animCount, "texts":textCount};
+   return colorCount;
+}
 function newGraph(data){
   var temp = [];
   for(object of data)
