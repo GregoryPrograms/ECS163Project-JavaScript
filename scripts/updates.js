@@ -145,18 +145,66 @@ function update(filterArray, lastFilter){
       globe(fullFiltData);
       var parallelFullMap = newGraph(data); //This is the full map, improved for parallel coordinates.
       var parallelFilteredMap = newGraph(fullFiltData); //This is the filtered map, improved for parallel coordinates.
-      var nesChord = d3.nest()
-                       .key(function(d) {if(lastFilter != ""){return d[lastFilter]}else{return d.landmass}})
-                       .entries(data);
-      chordNest(nesChord, lastFilter);
+      var numOf = {"Africa": filtButLast.filter(function(d){return d.landmass == "4"}).length,
+                   "Arabic": filtButLast.filter(function(d){return d.language == "8"}).length,
+                   "Asia": filtButLast.filter(function(d){return d.landmass == "5"}).length,
+                   "Buddhist": filtButLast.filter(function(d){return d.religion == "3"}).length,
+                   "Catholic": filtButLast.filter(function(d){return d.religion == "0"}).length,
+                   "Chinese": filtButLast.filter(function(d){return d.language == "7"}).length,
+                   "EU": filtButLast.filter(function(d){return d.landmass == "3"}).length,
+                   "English": filtButLast.filter(function(d){return d.language == "1"}).length,
+                   "Ethnic": filtButLast.filter(function(d){return d.religion == "5"}).length,
+                   "French": filtButLast.filter(function(d){return d.language == "3"}).length,
+                   "German": filtButLast.filter(function(d){return d.language == "4"}).length,
+                   "Hindu": filtButLast.filter(function(d){return d.religion == "4"}).length,
+                   "Jap/Turk/Fin/Magyar": filtButLast.filter(function(d){return d.language == "9"}).length,
+                   "Marxist": filtButLast.filter(function(d){return d.religion == "6"}).length,
+                   "Muslim": filtButLast.filter(function(d){return d.religion == "2"}).length,
+                   "NA": filtButLast.filter(function(d){return d.landmass == "1"}).length,
+                   "Oceania": filtButLast.filter(function(d){return d.landmass == "6"}).length,
+                   "Other Christian": filtButLast.filter(function(d){return d.religion == "1"}).length,
+                   "Other Indo/European": filtButLast.filter(function(d){return d.language == "6"}).length,
+                   "Other Language": filtButLast.filter(function(d){return d.language == "10"}).length,
+                   "Other Religion": filtButLast.filter(function(d){return d.religion == "7"}).length,
+                   "SA": filtButLast.filter(function(d){return d.landmass == "2"}).length,
+                   "Slavic": filtButLast.filter(function(d){return d.language == "5"}).length,
+                   "Spanish": filtButLast.filter(function(d){return d.language == "2"}).length};
+
+      var colList1 =  ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"],
+          colList2 =  ["Africa","Arabic","Asia","Buddhist","Catholic","Chinese","EU","English","Ethnic","French","German","Hindu","Jap/Turk/Fin/Magyar","Marxist","Muslim","NA","Oceania","Other Christian","Other Indo/European","Other Language","Other Religion","SA","Slavic","Spanish"];
+
+      if(lastFilter != "shape" && lastFilter != "color"){
+        var nesChord = d3.nest()
+                         .key(function(d) {if(lastFilter != ""){return d[lastFilter]}else{return d.landmass}})
+                         .entries(filtButLast);
+        chord(chordNest(nesChord, lastFilter, numOf, filterArray));
+        }
+      else{
+        var flagAttrData = flagAttrFilter(filtButLast, lastFilter);
+        chord(chordNest(flagAttrData, lastFilter, numOf, filterArray), lastFilter);
+        }
       //parallel(parallelFullMap, parallelFilteredMap);
         //This is where graph calls go.
       });//d3.csv()
     }//function update()
 
-
-function chordNest(data, lastFilter){
+function flagAttrFilter(data, lastFilter)
+{
+  switch(lastFilter){
+    case "color":
+      return([{key: "red", values: data.filter(function(d){return d.red == "1"})}, {key: "green", values: data.filter(function(d){return d.green == "1"})}, {key: "blue", values: data.filter(function(d){return d.blue == "1"})},
+             {key: "gold", values: data.filter(function(d){return d.gold == "1"})}, {key: "white", values: data.filter(function(d){return d.white == "1"})}, {key: "black", values: data.filter(function(d){return d.black == "1"})},
+             {key: "orange", values: data.filter(function(d){return d.orange == "1"})}]);
+    case "shape":
+      return([{key: "bars", values: data.filter(function(d){return d.bars != "0"})}, {key: "stripes", values: data.filter(function(d){return d.stripes != "0"})}, {key: "circles", values: data.filter(function(d){return d.circles != "0"})},
+             {key: "crosses", values: data.filter(function(d){return d.crosses != "0"})}, {key: "saltires", values: data.filter(function(d){return d.saltires != "0"})}, {key: "quarters", values: data.filter(function(d){return d.quarters != "0"})},
+             {key: "sunstars", values: data.filter(function(d){return d.sunstars != "0"})}, {key: "crescents", values: data.filter(function(d){return d.crescent != "0"})}, {key: "triangles", values: data.filter(function(d){return d.triangle != "0"})},
+             {key: "icons", values: data.filter(function(d){return d.icon != "0"})}, {key: "animates", values: data.filter(function(d){return d.animate != "0"})}, {key: "texts", values: data.filter(function(d){return d.texts != "0"})}])
+  }
+}
+function chordNest(data, lastFilter, numOf, filterArray){
   var temp = [];
+  var temp1 = [];
   var temp2 = [];
   var colList = [];
   switch(lastFilter){
@@ -174,31 +222,99 @@ function chordNest(data, lastFilter){
         temp2.push({"key": object.key, "red": moreThanHalf(object.red, object.length), "green": moreThanHalf(object.green, object.length), "blue": moreThanHalf(object.blue, object.length), "gold": moreThanHalf(object.gold, object.length), "white": moreThanHalf(object.white, object.length), "black": moreThanHalf(object.black, object.length), "orange": moreThanHalf(object.orange, object.length), "bars": moreThanHalf(object.bars, object.length), "stripes": moreThanHalf(object.stripes, object.length), "circles": moreThanHalf(object.circles, object.length), "crosses": moreThanHalf(object.crosses, object.length), "saltires": moreThanHalf(object.saltires, object.length), "quarters": moreThanHalf(object.quarters, object.length), "sunstars": moreThanHalf(object.sunstars, object.length), "crescent": moreThanHalf(object.crescents, object.length), "triangles": moreThanHalf(object.triangles, object.length), "icons": moreThanHalf(object.icons, object.length), "animates": moreThanHalf(object.animates, object.length), "texts": moreThanHalf(object.texts, object.length)});
         }
     colList = ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"];
+    tempVal;
+    for(iter = 0;iter < colList.length; iter++)
+       {
+       switch(lastFilter){
+         case "":
+         tempVal = 0;
+         break;
+         case "landmass":
+         if(colList[iter] == filterArray[0].key)
+           {
+          tempVal = iter;
+           }
+        break;
+        case "religion":
+        if(colList[iter] == filterArray[1].key)
+          {
+          tempVal = iter;
+          }
+        break;
+        if(colList[iter] == filterArray[2].key)
+          {
+          tempVal = iter;
+          }
+        break;
+        default: break;
+         }
+       }
+    colList = [].concat(colList[iter], colList.slice(0, iter-1), colList.slice(iter, colList.length))
+    break;
+    case "color":
+    case "shape":
+      colList = ["Africa","Arabic","Asia","Buddhist","Catholic","Chinese","EU","English","Ethnic","French","German","Hindu","Jap/Turk/Fin/Magyar","Marxist","Muslim","NA","Oceania","Other Christian","Other Indo/European","Other Language","Other Religion","SA","Slavic","Spanish"];
+
+      for(object of data)
+         {
+         var allLocAttr = countLocal(object);
+         allLocAttr.length = object.values.length;
+         temp1.push({"Africa": moreThanHalf(allLocAttr.Africa, numOf.Africa),
+                     "Arabic": moreThanHalf(allLocAttr.Arabic, numOf.Arabic),
+                      "Asia":  moreThanHalf(allLocAttr.Asia, numOf.Asia),
+                      "Buddhist": moreThanHalf(allLocAttr.Buddhist, numOf.Buddhist),
+                      "Catholic": moreThanHalf(allLocAttr.Catholic, numOf.Catholic),
+                      "Chinese": moreThanHalf(allLocAttr.Chinese, numOf.Chinese),
+                      "EU": moreThanHalf(allLocAttr.EU, numOf.EU),
+                      "English": moreThanHalf(allLocAttr.English, numOf.English),
+                      "Ethnic": moreThanHalf(allLocAttr.Ethnic, numOf.Ethnic),
+                      "French": moreThanHalf(allLocAttr.French, numOf.French),
+                      "German": moreThanHalf(allLocAttr.German, numOf.German),
+                      "Hindu": moreThanHalf(allLocAttr.Hindu, numOf.Hindu),
+                      "Jap/Turk/Fin/Magyar": moreThanHalf(allLocAttr["Jap/Turk/Fin/Magyar"], numOf["Jap/Turk/Fin/Magyar"]),
+                      "Marxist": moreThanHalf(allLocAttr.Marxist, numOf.Marxist),
+                      "Muslim": moreThanHalf(allLocAttr.Muslim, numOf.Muslim),
+                      "NA": moreThanHalf(allLocAttr.NA, numOf.NA),
+                      "Oceania": moreThanHalf(allLocAttr.Oceania, numOf.Oceania),
+                      "Other Christian": moreThanHalf(allLocAttr["Other Christian"], numOf["Other Christian"]),
+                      "Other Indo/European": moreThanHalf(allLocAttr["Other Indo/European"], numOf["Other Indo/European"]),
+                      "Other Language": moreThanHalf(allLocAttr["Other Language"], numOf["Other Language"]),
+                      "Other Religion": moreThanHalf(allLocAttr["Other Religion"], numOf["Other Religion"]),
+                      "SA": moreThanHalf(allLocAttr.SA, numOf.SA),
+                      "Slavic": moreThanHalf(allLocAttr.Slavic, numOf.Slavic),
+                      "Spanish": moreThanHalf(allLocAttr.Spanish, numOf.Spanish),
+                      "Key": allLocAttr.Key,
+                      "length": allLocAttr.length});
+         }
+       temp2 = temp1;
     break;
     default: break;
     }
-  chord(makeMatrix(temp2, colList));
+  return(makeMatrix(temp2, colList));
 }
 
 function makeMatrix(temp2, colList){
+  var i = 0;
+  var j = 0;
   var tempI = [];
   for(i of temp2){
     var tempJ = [];
     for(j of temp2){
       tempCount = 0;
       for(iter of colList){
-        if(j[iter] != 0)
+        if(j[iter] != 0 && iter != "Key" && iter != "length")
           {
           tempCount += i[iter];
           }
         }
-      if(i != j){
+      if(i.Key != j.Key){
         tempJ.push(tempCount);
         }
       else{tempJ.push(0);}
     }
   tempI.push(tempJ);
   }
+  console.log(tempI);
   return tempI;
 }
 
@@ -210,26 +326,139 @@ function moreThanHalf(num1, num2){
     }
   else return num1;
 }
+function countLocal(object){
+ var NACount = 0,
+     SACount = 0,
+     EUCount = 0,
+     AfrCount = 0,
+     AsiaCount = 0,
+     OceCount = 0,
+     ENCount = 0,
+     SpaCount = 0,
+     FreCount = 0,
+     GerCount = 0,
+    SlavCount = 0,
+     OIEuCount = 0,
+    ChinCount = 0,
+    AraCount = 0,
+     JTFMCount = 0,
+     OtherLCount = 0,
+    CathCount = 0,
+    OChristCount = 0,
+    MusCount = 0,
+    BuddCount = 0,
+    HinCount = 0,
+    EthCount = 0,
+    MarxCount = 0,
+    OtherRCount = 0;
+    for(iter of object.values)
+      {
+      switch(iter.landmass){
+        case "1":
+          NACount++;
+          break;
+        case "2":
+          SACount++;
+          break;
+        case "3":
+          EUCount++;
+          break;
+        case "4":
+          AfrCount++;
+          break;
+        case "5":
+          AsiaCount++;
+          break;
+        case "6":
+          OceCount++;
+          break;
+        default: break;
+        }
+      switch(iter.language){
+        case "1":
+          ENCount++;
+          break;
+        case "2":
+          SpaCount++;
+          break;
+        case "3":
+          FreCount++;
+          break;
+        case "4":
+          GerCount++;
+          break;
+        case "5":
+          SlavCount++;
+          break;
+        case "6":
+          OIEuCount++;
+          break;
+        case "7":
+          ChinCount++;
+          break;
+        case "8":
+          AraCount++;
+          break;
+        case "9":
+          JTFMCount++;
+          break;
+        case "10":
+          OtherLCount++;
+          break;
+        default:break;
+        }
+     switch(iter.religion){
+       case "0":
+         CathCount++;
+         break;
+       case "1":
+         OChristCount++;
+         break;
+       case "2":
+         MusCount++;
+         break;
+       case "3":
+         BuddCount++;
+         break;
+       case "4":
+         HinCount++;
+         break;
+       case "5":
+         EthCount++;
+         break;
+       case "6":
+         MarxCount++;
+         break;
+       case "7":
+         OtherRCount++;
+         break;
+       default:break;
+       }
+     }
+     locCount = {"Key": object.key, "NA": NACount, "SA": SACount, "EU": EUCount, "Africa": AfrCount, "Asia": AsiaCount, "Oceania": OceCount, "English": ENCount, "Spanish": SpaCount, "French": FreCount, "German": GerCount, "Slavic": SlavCount, "Other Indo/European": OIEuCount, "Chinese": ChinCount, "Arabic": AraCount,
+                 "Jap/Turk/Fin/Magyar": JTFMCount, "Other Language": OtherLCount, "Catholic": CathCount, "Other Christian": OChristCount, "Muslim": MusCount, "Buddhist": BuddCount, "Hindu": HinCount, "Ethnic": EthCount, "Marxist": MarxCount, "Other Religion": OtherRCount};
+     return locCount;
+}
 function countColor(object)
 {
-  barCount = 0;
-  stripCount = 0;
-  redCount = 0;
-  greenCount = 0;
-  blueCount = 0;
-  goldCount = 0;
-  whiteCount = 0;
-  blackCount = 0;
-  orangeCount = 0;
-  circCount = 0;
-  crossCount = 0;
-  saltCount = 0;
-  quartCount = 0;
-  sunStarCount = 0;
-  cresCount = 0;
-  triCount = 0;
-  iconCount = 0;
-  animCount = 0;
+  var barCount = 0,
+  stripCount = 0,
+  redCount = 0,
+  greenCount = 0,
+  blueCount = 0,
+  goldCount = 0,
+  whiteCount = 0,
+  blackCount = 0,
+  orangeCount = 0,
+  circCount = 0,
+  crossCount = 0,
+  saltCount = 0,
+  quartCount = 0,
+  sunStarCount = 0,
+  cresCount = 0,
+  triCount = 0,
+  iconCount = 0,
+  animCount = 0,
   textCount = 0;
   for(iter of object.values)
     {
