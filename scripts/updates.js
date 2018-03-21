@@ -118,8 +118,8 @@ function update(filterArray, lastFilter){
                      break;
                    case "triangle":
                      fullFiltData = fullFiltData.filter(function(d){
-                       return d.triangle == "1"}); 
-                     if(iter.key != lastFilter){filtButLast = filtButLast.filter(function(d){return d.triangle == "1"})};             
+                       return d.triangle == "1"});
+                     if(iter.key != lastFilter){filtButLast = filtButLast.filter(function(d){return d.triangle == "1"})};
  	             break;
                    case "icon":
                      fullFiltData = fullFiltData.filter(function(d){
@@ -142,7 +142,7 @@ function update(filterArray, lastFilter){
               }//Switch iter.key(overall switch)
            }//if(iter.filtVal != " ")
         }//for(iter of filterArray)
-      //globe(data, fullFiltData);
+      globe(fullFiltData);
       var parallelFullMap = newGraph(data); //This is the full map, improved for parallel coordinates.
       var parallelFilteredMap = newGraph(fullFiltData); //This is the filtered map, improved for parallel coordinates.
       var nesChord = d3.nest()
@@ -150,7 +150,7 @@ function update(filterArray, lastFilter){
                        .entries(data);
       chordNest(nesChord, lastFilter);
       //parallel(parallelFullMap, parallelFilteredMap);
-        //This is where graph calls go.   
+        //This is where graph calls go.
       });//d3.csv()
     }//function update()
 
@@ -171,9 +171,9 @@ function chordNest(data, lastFilter){
         }
     for(object of temp)
         {
-        temp2.push({"key": object.key, "red": moreThanHalf(object.red, object.length), "green": moreThanHalf(object.green, object.length), "blue": moreThanHalf(object.blue, object.length), "gold": moreThanHalf(object.gold, object.length), "white": moreThanHalf(object.white, object.length), "black": moreThanHalf(object.black, object.length), "orange": moreThanHalf(object.orange, object.length), "bars": moreThanHalf(object.bars, object.length), "stripes": moreThanHalf(object.stripes, object.length), "circles": moreThanHalf(object.circles, object.length), "crosses": moreThanHalf(object.crosses, object.length), "saltires": moreThanHalf(object.saltires, object.length), "quarters": moreThanHalf(object.quarters, object.length), "sunstars": moreThanHalf(object.sunstars, object.length), "crescent": moreThanHalf(object.crescents, object.length), "triangles": moreThanHalf(object.triangles, object.length), "icons": moreThanHalf(object.icons, object.length), "animates": moreThanHalf(object.animates, object.length), "texts": moreThanHalf(object.texts, object.length)}); 
+        temp2.push({"key": object.key, "red": moreThanHalf(object.red, object.length), "green": moreThanHalf(object.green, object.length), "blue": moreThanHalf(object.blue, object.length), "gold": moreThanHalf(object.gold, object.length), "white": moreThanHalf(object.white, object.length), "black": moreThanHalf(object.black, object.length), "orange": moreThanHalf(object.orange, object.length), "bars": moreThanHalf(object.bars, object.length), "stripes": moreThanHalf(object.stripes, object.length), "circles": moreThanHalf(object.circles, object.length), "crosses": moreThanHalf(object.crosses, object.length), "saltires": moreThanHalf(object.saltires, object.length), "quarters": moreThanHalf(object.quarters, object.length), "sunstars": moreThanHalf(object.sunstars, object.length), "crescent": moreThanHalf(object.crescents, object.length), "triangles": moreThanHalf(object.triangles, object.length), "icons": moreThanHalf(object.icons, object.length), "animates": moreThanHalf(object.animates, object.length), "texts": moreThanHalf(object.texts, object.length)});
         }
-    colList = ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"];  
+    colList = ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"];
     break;
     default: break;
     }
@@ -184,7 +184,7 @@ function makeMatrix(temp2, colList){
   for(i in temp2){
     for(j in temp2){
       for(iter in colList){
-                
+
       }
     }
   }
@@ -206,7 +206,7 @@ function countColor(object)
   greenCount = 0;
   blueCount = 0;
   goldCount = 0;
-  whiteCount = 0; 
+  whiteCount = 0;
   blackCount = 0;
   orangeCount = 0;
   circCount = 0;
@@ -324,8 +324,8 @@ function landToStr(landmass){
     case "6":
       return "Oceania";
     default:
-      console.log("ERROR: object has no valid landmass value", object); 
-      return "Pancakes"; //This should never ever ever call.. 
+      console.log("ERROR: object has no valid landmass value", object);
+      return "Pancakes"; //This should never ever ever call..
   }
 }
 
