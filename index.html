@@ -4,12 +4,30 @@
     <meta charset ="utf-8">
 <link rel="stylesheet" type="text/css" href="css/styles.css">
 <script type="text/javascript" src="scripts/d3.v4.min.js"></script>
-<svg width="40%" height = "800" id = "sliders" style = "float:left; background-color: lightgrey"></svg>
-<svg width="60%" height = "800" id = "parallelCoords" style = "float: right; background-color: lightgrey"></svg>
-<svg width="25%" height= "800" id = "moreText" style = "float:left; background-color: red"></svg>
-<svg width="75%" height= "800" id = "chordChart" style = "float:right; background-color: green"></svg>
-<svg width="100%" height= "50" id = "pageBottom"></svg>
-<svg width="35%" height = "500" id = "globe" style = "position: absolute; transform: translate(-265%,-1500px); stroke = none"></svg>
+<style>
+</style>
+<body>
+<div class='container'>
+	<div class='row'>
+					<div class='radio'>
+						<label class='radio-inline'>
+							<input type="radio" name="region" value="Red" onclick='filterColor("red")'> NA
+						</label>
+						<label class='radio-inline'>
+							<input type="radio" name="region" value="Blue" onclick='filterColor("blue")'> Blue
+						</label>
+						<label class='radio-inline'>
+							<input type="radio" name="region" value="NA" onclick='filterLand("1")'> Red
+						</label>
+					</div>
+          <svg width="40%" height = "800" id = "sliders" style = "float:left; background-color: lightgrey"></svg>
+          <svg width="60%" height = "800" id = "parallelCoords" style = "float: right; background-color: lightgrey"></svg>
+          <svg width="25%" height= "800" id = "moreText" style = "float:left; background-color: lightgrey"></svg>
+          <svg width="75%" height= "800" id = "chordChart" style = "float:right; background-color: lightgrey"></svg>
+          <svg width="100%" height= "50" id = "pageBottom"></svg>
+          <svg width="35%" height = "500" id = "globe" style = "position: absolute; transform: translate(-265%,-1500px); stroke = none"></svg>
+	</div>
+</div>
 
 <script type="text/javascript" src="scripts/updates.js"></script>
 <script type="text/javascript" src="scripts/filters.js"></script>
@@ -24,3 +42,4 @@
 //Here's where we run the code to start drawing our graphs.
 filterColor("red");
 </script>
+<body>

@@ -52,9 +52,8 @@ function globe(filteredCountries) {
     })
     .attr("class", "water")
     .attr("d", path);
-
   var countryTooltip = d3.select("body").append("div").attr("class", "countryTooltip"),
-    countryList = d3.select("body").append("select").attr("name", "countries");
+   countryList = d3.select("body").append("select").attr("name", "countries");
 
   queue()
     .defer(d3.json, "./scripts/graphs/globe-related/world-110m.json")

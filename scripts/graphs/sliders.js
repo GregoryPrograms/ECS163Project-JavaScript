@@ -8,5 +8,6 @@
 *	        from filters.js
 *
 *       Purpose: Allow filtering based on flag attributes.
-*		 
-*/ 
+*
+*/
+
