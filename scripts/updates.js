@@ -155,26 +155,41 @@ function update(filterArray, lastFilter){
     }//function update()
 
 
-
 function chordNest(data, lastFilter){
   var temp = [];
   var temp2 = [];
+  var colList = [];
   switch(lastFilter){
     case "":
     case "landmass":
+    case "religion":
+    case "language":
       for(object of data)
         {
         var allColors = countColor(object);
-        temp.push({"key": landToStr(object.key), "red": allColors.red, "green": allColors.green, "blue": allColors.blue, "gold": allColors.gold, "white": allColors.white, "black": allColors.black, "orange": allColors.orange, "bars": allColors.bars, "stripes": allColors.stripes, "circles": allColors.circles, "crosses": allColors.crosses, "saltires": allColors.saltires, "quarters": allColors.quarters, "sunstars": allColors.sunstars, "crescents": allColors.crescents, "triangles": allColors.triangles, "icons": allColors.icons, "animates": allColors.animates, "texts": allColors.texts, "length": object.values.length});
+        temp.push({"key": whatIsIt(object.key, lastFilter), "red": allColors.red, "green": allColors.green, "blue": allColors.blue, "gold": allColors.gold, "white": allColors.white, "black": allColors.black, "orange": allColors.orange, "bars": allColors.bars, "stripes": allColors.stripes, "circles": allColors.circles, "crosses": allColors.crosses, "saltires": allColors.saltires, "quarters": allColors.quarters, "sunstars": allColors.sunstars, "crescents": allColors.crescents, "triangles": allColors.triangles, "icons": allColors.icons, "animates": allColors.animates, "texts": allColors.texts, "length": object.values.length});
         }
     for(object of temp)
         {
         temp2.push({"key": object.key, "red": moreThanHalf(object.red, object.length), "green": moreThanHalf(object.green, object.length), "blue": moreThanHalf(object.blue, object.length), "gold": moreThanHalf(object.gold, object.length), "white": moreThanHalf(object.white, object.length), "black": moreThanHalf(object.black, object.length), "orange": moreThanHalf(object.orange, object.length), "bars": moreThanHalf(object.bars, object.length), "stripes": moreThanHalf(object.stripes, object.length), "circles": moreThanHalf(object.circles, object.length), "crosses": moreThanHalf(object.crosses, object.length), "saltires": moreThanHalf(object.saltires, object.length), "quarters": moreThanHalf(object.quarters, object.length), "sunstars": moreThanHalf(object.sunstars, object.length), "crescent": moreThanHalf(object.crescents, object.length), "triangles": moreThanHalf(object.triangles, object.length), "icons": moreThanHalf(object.icons, object.length), "animates": moreThanHalf(object.animates, object.length), "texts": moreThanHalf(object.texts, object.length)}); 
         }
+    colList = ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"];  
+    break;
     default: break;
     }
-  console.log(temp2);
+  makeMatrix(temp2, colList);
 }
+
+function makeMatrix(temp2, colList){
+  for(i in temp2){
+    for(j in temp2){
+      for(iter in colList){
+                
+      }
+    }
+  }
+}
+
 
 function moreThanHalf(num1, num2){
   if(num1 < num2/2)
@@ -387,4 +402,17 @@ function shapeToStr(object){
   if(object.animate != "0"){temp = temp + "Animate ";}
   if(object.text != "0"){temp = temp + "Text ";}
   return temp;
+}
+function whatIsIt(key, filter)
+{
+switch(key){
+  case "":
+  case "landmass":
+  return(landToStr(key));
+  case "religion":
+  return(religToStr(key));
+  case "language":
+  return(langToStr(key));
+  default: break;
+  }
 }
