@@ -177,17 +177,25 @@ function chordNest(data, lastFilter){
     break;
     default: break;
     }
-  makeMatrix(temp2, colList);
+  console.log(makeMatrix(temp2, colList));
 }
 
 function makeMatrix(temp2, colList){
-  for(i in temp2){
-    for(j in temp2){
-      for(iter in colList){
-
-      }
+  var tempI = [];
+  for(i of temp2){
+    var tempJ = [];
+    for(j of temp2){
+      tempCount = 0;
+      for(iter of colList){
+        if(j[iter] != 0)
+          {
+          tempCount += i[iter];
+          }
+    tempJ.push(tempCount);
     }
+  tempI.push(tempJ);
   }
+  return tempI;
 }
 
 
@@ -403,9 +411,8 @@ function shapeToStr(object){
   if(object.text != "0"){temp = temp + "Text ";}
   return temp;
 }
-function whatIsIt(key, filter)
-{
-switch(key){
+function whatIsIt(key, filter){
+switch(filter){
   case "":
   case "landmass":
   return(landToStr(key));
