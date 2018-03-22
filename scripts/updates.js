@@ -228,25 +228,25 @@ function chordNest(data, lastFilter, numOf, filterArray){
         }
     colList = ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"];
     var tempVal;
-    for(iter = 0;iter < colList.length; iter++)
+    for(iter = 0;iter < data.length; iter++)
        {
        switch(lastFilter){
          case "":
          tempVal = 0;
          break;
          case "landmass":
-         if(colList[iter] == filterArray[0].key)
+         if(data[iter].key == filterArray[0].key)
            {
           tempVal = iter;
            }
         break;
         case "religion":
-        if(colList[iter] == filterArray[1].key)
+        if(data[iter].key == filterArray[1].key)
           {
           tempVal = iter;
           }
         break;
-        if(colList[iter] == filterArray[2].key)
+        if(data[iter].key == filterArray[2].key)
           {
           tempVal = iter;
           }
@@ -254,9 +254,8 @@ function chordNest(data, lastFilter, numOf, filterArray){
         default: break;
          }
        }
-    var colVal = colList[tempVal]
-    colList.splice(tempVal, 1);
-    colList = [].concat(colVal, colList);
+    var datVal = temp2.splice(tempVal, 1);
+    temp2 = [].concat(datVal,temp2);
     break;
     case "color":
     case "shape":

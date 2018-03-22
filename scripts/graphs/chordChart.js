@@ -24,13 +24,17 @@
 *	     (Maybe a specific color, that stands out from our other color
 *	      choices for the graph).
 */
+
+//Having issues removing elements (since I didn't format this as an update function...)
 function chord(outerData, lastFilter){
+//Apply to chordchart svg
 var svg = d3.select("#chordChart"),
     width = 800,
-    height = +svg.attr("height"),
+    height = 800,
     outerRadius = Math.min(width, height) * 0.5 - 70,
     innerRadius = outerRadius - 65;
 
+//Creates functions to make chords, arcs, and ribbons from the matrix passed in.
 var chord = d3.chord()
     .padAngle(0.01)
     .sortSubgroups(d3.descending);
@@ -42,6 +46,8 @@ var arc = d3.arc()
 var ribbon = d3.ribbon()
     .radius(innerRadius);
 
+//This was written to prevent stroop effect. IF the data is color, the color corresponds to that on the dataset. Otherwise, the color corresponds to
+//the filtered datapoint.
 var colorRange = []
     if(lastFilter == "color")
       {
@@ -74,31 +80,35 @@ switch(lastFilter){
     break;
   default: break;
 }
-["Hello", "Bye"];
 var texIndex = 0;
-var group = g.append("g")
+var dataGrouping = g.append("g")
     .attr("class", "groups")
   .selectAll("g")
   .data(function(chords) { return chords.groups; })
   .enter().append("g");
 
-group.append("path")
+dataGrouping.append("path")
     .style("fill", function(d) { return color(d.index); })
-    .style("stroke", function(d) { return d3.rgb(color(d.index)).darker(); })
+    .style("stroke", function(d) { return "black"})
     .attr("d", arc);
 
-var groupTick = group.selectAll(".group-tick")
-  .data(function(d) { return groupTicks(d, 1e3); })
+var lineDiv = dataGrouping.selectAll(".lineDiv")
+  .data(function(d) { return lineDivs(d, 1000); })
   .enter().append("g")
-    .attr("class", "group-tick")
+    .attr("class", "lineDiv")
     .attr("transform", function(d) { return "rotate(" + (d.angle * 180/ Math.PI - 90) + ") translate(" + outerRadius + ",0)"; });
 
-groupTick
+lineDiv
   .append("text")
-    .attr("x", 8)
-    .attr("dy", ".35em")
-    .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180) translate(-16)" : null; })
-    .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+    .attr("transform", function(d) {if(d.angle > Math.PI){
+                                          return "rotate(180) translate(-16)"
+                                          }
+                                          else return null; })
+    .style("stroke", function(d) { return "black"})
+    .style("text-anchor", function(d) { if(d.angle > Math.PI){
+                                          return "end"
+                                          }
+                                          else return null; })
     .text(function(){
       texIndex++;
       return texBars[texIndex - 1];
@@ -111,10 +121,9 @@ g.append("g")
   .enter().append("path")
     .attr("d", ribbon)
     .style("fill", function(d) { return color(d.target.index); })
-    .style("stroke", function(d) { return d3.rgb(color(d.target.index)).darker(); });
+    .style("stroke", function(d) { return "black"});
 }
-// Returns an array of tick angles and values for a given group and step.
-function groupTicks(d, step) {
+function lineDivs(d, step) {
   var k = (d.endAngle - d.startAngle) / d.value;
   return d3.range(0, d.value, step).map(function(value) {
     return {value: value, angle: value * k + d.startAngle};

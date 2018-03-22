@@ -5,20 +5,132 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css">
 <script type="text/javascript" src="scripts/d3.v4.min.js"></script>
 <style>
+#legendContainer{
+	position:absolute;
+	top:60px;
+	left:10px;
+	overflow: auto;
+	height:490px;
+	width:110px;
+}
+#legendContainer2{
+	position:absolute;
+	top:60px;
+	left:10px;
+	overflow: auto;
+	height:490px;
+	width:110px;
+}
+#legendContainer3{
+	position:absolute;
+	top:60px;
+	left:10px;
+	overflow: auto;
+	height:490px;
+	width:110px;
+}
+#mainBanner{
+  position:absolute;
+  overflow: auto;
+  top:10px;
+  left:300px;
+}
+#globeBanner{
+  position:absolute;
+  overflow: auto;
+  top: 550px;
+  left: 30px;
+  height: 300px;
+  width: 110px;
+}
+#chordBanner{
+  position:absolute;
+  overflow: auto;
+  top: 1000px;
+  left: 1480px;
+  height: 600px;
+  width: 310px;
+}
+.banner{
+  font-size: 16px;
+}
+#legend{
+	width:90px;
+	height:200px;
+}
+#legend2{
+	width:90px;
+	height:200px;
+}
+#legend3{
+	width:90px;
+	height:200px;
+}
+}
+.legend {
+    font-size: 12px;
+    font-weight: normal;
+    text-anchor: left;
+}
+.legendcheckbox{
+	cursor: pointer;
+}
+#inds{
+	position:absolute;
+	top:10px;
+	left:10px;
+}
+#inds2{
+	position:absolute;
+	top:40px;
+	left:10px;
+}
+#inds3{
+	position:absolute;
+	top:10px;
+	left:700px;
+}
 </style>
 <body>
+<select id="inds">
+		<option value="none" selected="selected" onclick= 'filterLand("none")'>Region: None</option>
+		<option value="1" onclick= 'filterLand("1")'>North America</option>
+		<option value="2" onclick= 'filterLand("2")'>South America</option>
+    <option value="3" onclick= 'filterLand("3")'>Europe</option>
+    <option value="4" onclick= 'filterLand("4")'>Africa</option>
+    <option value="5" onclick= 'filterLand("5")'>Asia</option>
+    <option value="6" onclick= 'filterLand("6")'>Oceania</option>
+</select>
+<select id="inds2">
+		<option value="none" selected="selected" onclick= 'filterRelig("none")'>Religion: None</option>
+		<option value="0" onclick= 'filterRelig("0")'>Catholic</option>
+		<option value="1" onclick= 'filterRelig("1")'>Other Christian</option>
+    <option value="2" onclick= 'filterRelig("2")'>Muslim</option>
+    <option value="3" onclick= 'filterRelig("3")'>Buddhist</option>
+    <option value="4" onclick= 'filterRelig("4")'>Hindu</option>
+    <option value="5" onclick= 'filterRelig("5")'>Ethnic</option>
+    <option value="6" onclick= 'filterRelig("6")'>Marxist</option>
+    <option value="7" onclick= 'filterRelig("7")'>Other Religions</option>
+</select>
+<select id="inds3">
+		<option value="none" selected="selected" onclick= 'filterColor("none")'>Color: None</option>
+		<option value="1" onclick= 'filterColor("red")'>Red</option>
+		<option value="2" onclick= 'filterColor("green")'>Green</option>
+    <option value="3" onclick= 'filterColor("blue")'>Blue</option>
+    <option value="4" onclick= 'filterColor("gold")'>Gold</option>
+    <option value="5" onclick= 'filterColor("white")'>White</option>
+    <option value="6" onclick= 'filterColor("black")'>Black</option>
+    <option value="7" onclick= 'filterColor("orange")'>Orange</option>
+</select>
 <div class='container'>
 	<div class='row'>
-					<div class='radio'>
-						<label class='radio-inline'>
-							<input type="radio" name="region" value="Red" onclick='filterColor("red")'> NA
-						</label>
-						<label class='radio-inline'>
-							<input type="radio" name="region" value="Blue" onclick='filterColor("blue")'> Blue
-						</label>
-						<label class='radio-inline'>
-							<input type="radio" name="region" value="NA" onclick='filterLand("1")'> Red
-						</label>
+             <div id="legendContainer" class="legendContainer">
+	     <svg id="legend"></svg>
+					   </div>
+					   </div>
+             <div id="mainBanner" class = "banner">Flags around the world: An analysis </div>
+             <div id="globeBanner" class = "banner">Globe: Shows countries around the world. Red: Matches filtering. </div>
+             <div id="chordBanner" class = "banner">Chord Chart: Uses an algorithm to find similarities (currently set to 50% of the row data having that attribute), and finds which other rows have similarities with it, sorting in descending order clockwise (the countries with the most similarities will have their ribbons be the first clockwise). Currently has several issues with the filtering, largely caused by me implementing it initially without enter() update() exit() structure, and not having the time to refactor. Still visible that it takes input from the filters via trying to filter by color. </div>
 					</div>
           <svg width="40%" height = "800" id = "sliders" style = "float:left; background-color: lightgrey"></svg>
           <svg width="60%" height = "800" id = "parallelCoords" style = "float: right; background-color: lightgrey"></svg>
@@ -40,6 +152,6 @@
 <script type="text/javascript" src="scripts/graphs/parallelCoords.js"></script>
 <script>
 //Here's where we run the code to start drawing our graphs.
-filterColor("red");
+callUpdate();
 </script>
 <body>

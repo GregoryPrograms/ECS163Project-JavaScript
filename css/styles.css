@@ -21,7 +21,7 @@
 .highlight {
   fill: #E94B3C;
 }
-
+/*
 select {
   position: absolute;
   top: 20px;
@@ -30,7 +30,7 @@ select {
   padding: 3px;
   box-shadow: inset 1px 1px 2px #ddd8dc;
 }
-
+*/
 .countryTooltip {
   position: absolute;
   display: none;
