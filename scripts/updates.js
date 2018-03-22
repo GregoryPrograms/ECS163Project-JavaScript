@@ -177,7 +177,11 @@ function update(filterArray, lastFilter){
         var nesChord = d3.nest()
                          .key(function(d) {if(lastFilter != ""){return d[lastFilter]}else{return d.landmass}})
                          .entries(filtButLast);
-        chord(chordNest(nesChord, lastFilter, numOf, filterArray));
+        if(lastFilter == ""){
+         var weirdBug = "landmass";
+         chord(chordNest(nesChord, lastFilter, numOf, filterArray), weirdBug);
+          }
+        else{chord(chordNest(nesChord, lastFilter, numOf, filterArray), lastFilter);}
         }
       else{
         var flagAttrData = flagAttrFilter(filtButLast, lastFilter);
@@ -223,7 +227,7 @@ function chordNest(data, lastFilter, numOf, filterArray){
         temp2.push({"key": object.key, "red": moreThanHalf(object.red, object.length), "green": moreThanHalf(object.green, object.length), "blue": moreThanHalf(object.blue, object.length), "gold": moreThanHalf(object.gold, object.length), "white": moreThanHalf(object.white, object.length), "black": moreThanHalf(object.black, object.length), "orange": moreThanHalf(object.orange, object.length), "bars": moreThanHalf(object.bars, object.length), "stripes": moreThanHalf(object.stripes, object.length), "circles": moreThanHalf(object.circles, object.length), "crosses": moreThanHalf(object.crosses, object.length), "saltires": moreThanHalf(object.saltires, object.length), "quarters": moreThanHalf(object.quarters, object.length), "sunstars": moreThanHalf(object.sunstars, object.length), "crescent": moreThanHalf(object.crescents, object.length), "triangles": moreThanHalf(object.triangles, object.length), "icons": moreThanHalf(object.icons, object.length), "animates": moreThanHalf(object.animates, object.length), "texts": moreThanHalf(object.texts, object.length)});
         }
     colList = ["red", "green", "blue", "gold", "white", "black", "orange", "bars", "stripes", "circles", "crosses", "saltires", "quarters","sunstars", "crescent", "triangles", "icons", "animates", "texts"];
-    tempVal;
+    var tempVal;
     for(iter = 0;iter < colList.length; iter++)
        {
        switch(lastFilter){
@@ -250,7 +254,9 @@ function chordNest(data, lastFilter, numOf, filterArray){
         default: break;
          }
        }
-    colList = [].concat(colList[iter], colList.slice(0, iter-1), colList.slice(iter, colList.length))
+    var colVal = colList[tempVal]
+    colList.splice(tempVal, 1);
+    colList = [].concat(colVal, colList);
     break;
     case "color":
     case "shape":
@@ -284,7 +290,7 @@ function chordNest(data, lastFilter, numOf, filterArray){
                       "SA": moreThanHalf(allLocAttr.SA, numOf.SA),
                       "Slavic": moreThanHalf(allLocAttr.Slavic, numOf.Slavic),
                       "Spanish": moreThanHalf(allLocAttr.Spanish, numOf.Spanish),
-                      "Key": allLocAttr.Key,
+                      "key": allLocAttr.key,
                       "length": allLocAttr.length});
          }
        temp2 = temp1;
@@ -303,12 +309,12 @@ function makeMatrix(temp2, colList){
     for(j of temp2){
       tempCount = 0;
       for(iter of colList){
-        if(j[iter] != 0 && iter != "Key" && iter != "length")
+        if(j[iter] != 0 && iter != "key" && iter != "length")
           {
           tempCount += i[iter];
           }
         }
-      if(i.Key != j.Key){
+      if(i.key != j.key){
         tempJ.push(tempCount);
         }
       else{tempJ.push(0);}
@@ -434,7 +440,7 @@ function countLocal(object){
        default:break;
        }
      }
-     locCount = {"Key": object.key, "NA": NACount, "SA": SACount, "EU": EUCount, "Africa": AfrCount, "Asia": AsiaCount, "Oceania": OceCount, "English": ENCount, "Spanish": SpaCount, "French": FreCount, "German": GerCount, "Slavic": SlavCount, "Other Indo/European": OIEuCount, "Chinese": ChinCount, "Arabic": AraCount,
+     locCount = {"key": object.key, "NA": NACount, "SA": SACount, "EU": EUCount, "Africa": AfrCount, "Asia": AsiaCount, "Oceania": OceCount, "English": ENCount, "Spanish": SpaCount, "French": FreCount, "German": GerCount, "Slavic": SlavCount, "Other Indo/European": OIEuCount, "Chinese": ChinCount, "Arabic": AraCount,
                  "Jap/Turk/Fin/Magyar": JTFMCount, "Other Language": OtherLCount, "Catholic": CathCount, "Other Christian": OChristCount, "Muslim": MusCount, "Buddhist": BuddCount, "Hindu": HinCount, "Ethnic": EthCount, "Marxist": MarxCount, "Other Religion": OtherRCount};
      return locCount;
 }
@@ -645,7 +651,7 @@ function shapeToStr(object){
 }
 function whatIsIt(key, filter)
 {
-switch(key){
+switch(filter){
   case "":
   case "landmass":
   return(landToStr(key));
